@@ -72,12 +72,14 @@ namespace Apoteka
         public int BrojTelefona;
         public DateTime DatumRodjenja;
         public int Farmaceut;
+        public DateTime Diplomirao;
+        public DateTime ObnovioLicencu;
 
         public ZaposleniPregled()
         {
 
         }
-        public ZaposleniPregled(string mbr, string ime, string prezime, string adresa, int brTelefona, DateTime datumRodjenja, int farmaceut)
+        public ZaposleniPregled(string mbr, string ime, string prezime, string adresa, int brTelefona, DateTime datumRodjenja, int farmaceut, DateTime diplomirao, DateTime obnovioLicencu)
         {
             this.MaticniBroj = mbr;
             this.Ime = ime;
@@ -86,6 +88,8 @@ namespace Apoteka
             this.BrojTelefona = brTelefona;
             this.DatumRodjenja = datumRodjenja;
             this.Farmaceut = farmaceut;
+            this.Diplomirao = diplomirao;
+            this.ObnovioLicencu = obnovioLicencu;
         }
     }
 

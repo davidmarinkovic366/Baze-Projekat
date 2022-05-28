@@ -213,8 +213,8 @@ namespace Apoteka
 
                 foreach (Zaposleni z in sviZaposleni)
                 {
-                    zaposleniLista.Add(new ZaposleniPregled(z.MaticniBroj, z.Ime, z.Prezime, z.Adresa, z.BrojTelefona, z.DatumRodjenja, z.Farmaceut));
-                    //Console.WriteLine(z.MaticniBroj);
+                    zaposleniLista.Add(new ZaposleniPregled(z.MaticniBroj, z.Ime, z.Prezime, z.Adresa, z.BrojTelefona, z.DatumRodjenja, z.Farmaceut, z.Diplomirao, z.ObnovioLicencu));
+                    MessageBox.Show("Zaposleni: " + z.MaticniBroj + " Farmaceut: " + z.Farmaceut.ToString(), "Message", MessageBoxButtons.OK);
                 }
 
                 s.Close();
@@ -234,12 +234,8 @@ namespace Apoteka
             {
                 ISession s = DataLayer.GetSession();
 
-
-
                 IEnumerable<Apoteka.Entiteti.Zaposleni> sviRadnici = from o in s.Query<Apoteka.Entiteti.Zaposleni>()
                                                                      select o;
-
-
 
                 foreach (Apoteka.Entiteti.Zaposleni r in sviRadnici)
                 {
@@ -336,7 +332,6 @@ namespace Apoteka
             }
             return p;
         }
-
 
         public static void obrisiZaposlenogIzProdavnice(string id)
         {
@@ -696,8 +691,8 @@ namespace Apoteka
                 {
                     zaposleni.Add(new ZaposleniPregled(r.Id.ZaposleniRadiU.MaticniBroj, r.Id.ZaposleniRadiU.Ime, r.Id.ZaposleniRadiU.Prezime,
                     r.Id.ZaposleniRadiU.Adresa, r.Id.ZaposleniRadiU.BrojTelefona, 
-                    r.Id.ZaposleniRadiU.DatumRodjenja, r.Id.ZaposleniRadiU.Farmaceut
-
+                    r.Id.ZaposleniRadiU.DatumRodjenja, r.Id.ZaposleniRadiU.Farmaceut,
+                    r.Id.ZaposleniRadiU.Diplomirao, r.Id.ZaposleniRadiU.ObnovioLicencu
                     ));
                 }
 

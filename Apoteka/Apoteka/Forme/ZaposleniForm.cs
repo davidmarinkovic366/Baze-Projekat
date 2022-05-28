@@ -34,7 +34,7 @@ namespace Apoteka.Forme
             List<ZaposleniPregled> zaposleni = DTOManager.vratiSveZaposlene();
             foreach (ZaposleniPregled z in zaposleni)
             {
-                ListViewItem item = new ListViewItem(new string[] {  z.MaticniBroj, z.Ime, z.Prezime, z.Adresa, z.BrojTelefona.ToString(), z.DatumRodjenja.ToShortDateString(), z.Farmaceut.ToString() });
+                ListViewItem item = new ListViewItem(new string[] {  z.MaticniBroj, z.Ime, z.Prezime, z.Adresa, z.BrojTelefona.ToString(), z.DatumRodjenja.ToShortDateString(), z.Farmaceut.ToString(), z.Diplomirao.ToShortDateString(), z.ObnovioLicencu.ToShortDateString() });
                 this.lvListaZaposlenih.Items.Add(item);
                 this.brojZaposlenih++;
             }
@@ -122,14 +122,5 @@ namespace Apoteka.Forme
             MessageBox.Show(DTOManager.radnoMestoZaposlenog(this.listaZaposlenih.ElementAt(this.lvListaZaposlenih.SelectedIndices[0]).MaticniBroj), "Radno mesto: ", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private void lvListaZaposlenih_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            DTOManager.vratiFarmaceuta(this.lvListaZaposlenih.SelectedIndices[0]);
-        }
-
-        //private void lvListaZaposlenih_SelectedIndexChanged(object sender, EventArgs e)
-        //{
-
-        //}
     }
 }
