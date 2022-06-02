@@ -20,12 +20,10 @@ namespace Apoteka.Forme
             this.listaLekova = lekovi;
             InitializeComponent();
         }
-
         private void LekPrikaziIndikacije_Load(object sender, EventArgs e)
         {
             this.osveziPrikaz();
         }
-
         public void osveziPrikaz()
         {
             this.lvIndikacije.Items.Clear();
@@ -36,13 +34,11 @@ namespace Apoteka.Forme
             }
             this.lvIndikacije.Refresh();
         }
-
         private void btnDodajIndikaciju_Click(object sender, EventArgs e)
         {
             NovaIndikacija frm = new NovaIndikacija(this.listaLekova);
             frm.ShowDialog();
         }
-
         private void btnUkloniIndikaciju_Click(object sender, EventArgs e)
         {
             if(this.lvIndikacije.SelectedItems.Count == 1)

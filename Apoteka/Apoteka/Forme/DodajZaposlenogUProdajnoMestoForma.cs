@@ -35,19 +35,12 @@ namespace Apoteka.Forme
             List<ZaposleniBasic> listaZaposlenih = DTOManager.vratiSveZaposleneBasic();
             foreach (ZaposleniBasic r in listaZaposlenih)
                 cbZaposleni.Items.Add(r);
-                
         }
-
-
 
         private void DodajPostojecegZaposlenogForma_Load(object sender, EventArgs e)
         {
-
             this.datumDo.Enabled = false;
-
         }
-
-
 
         private void btnDodaj_Click(object sender, EventArgs e)
         {
@@ -64,8 +57,6 @@ namespace Apoteka.Forme
             this.Close();
 
         }
-
-
 
         private void omoguciDatumDo(object sender, EventArgs e)
         {

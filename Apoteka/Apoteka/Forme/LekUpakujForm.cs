@@ -20,21 +20,18 @@ namespace Apoteka.Forme
             this.pakovanja = list;
             InitializeComponent();
         }
-
         private void LekUpakujForm_Load(object sender, EventArgs e)
         {
             foreach(PakovanjePregled p in this.pakovanja)
             {
                 this.comboBox1.Items.Add(p.VrstaPakovanja);
             }
-            MessageBox.Show(this.lek.ToString(), "Message", MessageBoxButtons.OK);
+            //MessageBox.Show(this.lek.ToString(), "Message", MessageBoxButtons.OK);
         }
-
         private void btnOtkazi_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-
         private void btnUpakuj_Click(object sender, EventArgs e)
         {
             DialogResult dlg = MessageBox.Show("Da li ste sigurni da zelite da upakujete lek?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);

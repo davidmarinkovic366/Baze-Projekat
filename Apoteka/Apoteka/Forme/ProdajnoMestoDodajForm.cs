@@ -18,7 +18,6 @@ namespace Apoteka.Forme
             InitializeComponent();
             prodajnomesto = new ProdajnoMestoBasic();
         }
-
         private void btnDodaj_Click(object sender, EventArgs e)
         {
             string poruka = "Da li zelite da dodate novo prodajno mesto?";

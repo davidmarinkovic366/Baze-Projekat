@@ -18,7 +18,6 @@ namespace Apoteka.Forme
             this.prodajnaMesta = mesta;
             InitializeComponent();
         }
-
         private void LekoviPrikaziProdajnaMesta_Load(object sender, EventArgs e)
         {
             this.lvProdajnaMesta.Items.Clear();

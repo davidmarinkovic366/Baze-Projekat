@@ -16,12 +16,10 @@ namespace Apoteka.Forme
         {
             InitializeComponent();
         }
-
         private void ProdajnaMestaForm_Load_1(object sender, EventArgs e)
         {
             popuniPodacima();
         }
-
         public void popuniPodacima()
         {
             listaProdajnihMesta.Items.Clear();
@@ -31,8 +29,6 @@ namespace Apoteka.Forme
             {
                 ListViewItem item = new ListViewItem(new string[] { p.Id.ToString(), p.Naziv, p.Adresa, p.Mesto });
                 listaProdajnihMesta.Items.Add(item);
-                
-
             }
 
             listaProdajnihMesta.Refresh();
@@ -43,12 +39,11 @@ namespace Apoteka.Forme
             formaDodaj.ShowDialog();
             this.popuniPodacima();
         }
-
         private void btnIzmeniProdajnoMesto_Click(object sender, EventArgs e)
         {
             if (listaProdajnihMesta.SelectedItems.Count == 0)
             {
-                MessageBox.Show("Izaberite prodajno mesto  cije podatke zelite da izmenite!");
+                MessageBox.Show("Izaberite prodajno mesto cije podatke zelite da izmenite!");
                 return;
             }
 
@@ -60,7 +55,6 @@ namespace Apoteka.Forme
 
             this.popuniPodacima();
         }
-
         private void btnObrisiProdajnoMesto_Click(object sender, EventArgs e)
         {
             if (listaProdajnihMesta.SelectedItems.Count == 0)
@@ -86,7 +80,6 @@ namespace Apoteka.Forme
 
             }
         }
-
         private void btnVratiLekove_Click(object sender, EventArgs e)
         {
             if (listaProdajnihMesta.SelectedItems.Count == 0)
@@ -95,14 +88,11 @@ namespace Apoteka.Forme
                 return;
             }
 
-
-
             int idProdajnogMesta = Int32.Parse(listaProdajnihMesta.SelectedItems[0].SubItems[0].Text);
             ProdajnoMestoBasic p = DTOManager.vratiProdajnoMesto(idProdajnogMesta);
             ProdajnoMestoLekoviForm forma = new ProdajnoMestoLekoviForm(p);
             forma.ShowDialog();
         }
-
         private void btnVratiRadnike_Click(object sender, EventArgs e)
         {
             if (listaProdajnihMesta.SelectedItems.Count == 0)
@@ -110,8 +100,6 @@ namespace Apoteka.Forme
                 MessageBox.Show("Izaberite prodavnicu cije zaposlene zelite da vidite!");
                 return;
             }
-
-
 
             int idProdajnogMesta = Int32.Parse(listaProdajnihMesta.SelectedItems[0].SubItems[0].Text);
             ProdajnoMestoBasic p = DTOManager.vratiProdajnoMesto(idProdajnogMesta);

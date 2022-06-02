@@ -13,19 +13,17 @@ namespace Apoteka.Forme
     public partial class ZaposleniForm : Form
     {
         public List<ZaposleniPregled> listaZaposlenih = null;
+        public int brojZaposlenih = 0;
         public ZaposleniForm()
         {
             InitializeComponent();
         }
-        public int brojZaposlenih = 0;
         private void ZaposleniForm_Load(object sender, EventArgs e)
         {
             popuniPodacima();
         }
-        
         //Metoda za popunjavanje liste 'lvSviZaposleni'
         public void popuniPodacima()
-            
         {
             this.brojZaposlenih = 0;
             //Cistimo listu:
@@ -54,7 +52,6 @@ namespace Apoteka.Forme
             //Vrsimo ucitavanje objekta u listu koja se cuva na ovoj formi:
             this.listaZaposlenih = zaposleni;
         }
-
         private void btnDodajZaposlenog_Click(object sender, EventArgs e)
         {
             DialogResult res = new DialogResult();
@@ -65,10 +62,9 @@ namespace Apoteka.Forme
                 this.lvListaZaposlenih.Refresh();
             popuniPodacima();
         }
-
         private void btnIzmeniZaposlenog_Click(object sender, EventArgs e)
         {
-            //Ako je 
+            //Ako je ???
             if(this.lvListaZaposlenih.SelectedItems.Count == 1)
             {
                 ZaposleniUpdateForm frm = new ZaposleniUpdateForm(this.listaZaposlenih.ElementAt(this.lvListaZaposlenih.SelectedIndices[0]));
@@ -89,7 +85,6 @@ namespace Apoteka.Forme
                 MessageBox.Show("Morate da izaberete korisnika pre pozivanja ove metode!", "Greska!",  MessageBoxButtons.OK);
             }
         }
-
         private void btnObrisiZaposlenog_Click(object sender, EventArgs e)
         {
             if(this.lvListaZaposlenih.SelectedItems.Count == 1)
@@ -112,7 +107,6 @@ namespace Apoteka.Forme
                 MessageBox.Show("Morate da izaberete jednog zaposlenog!", "Message", MessageBoxButtons.OK);
             }
         }
-
         private void btnRecepti_Click(object sender, EventArgs e)
         {
             if(this.lvListaZaposlenih.SelectedIndices.Count == 0)
@@ -125,11 +119,9 @@ namespace Apoteka.Forme
                 frm.ShowDialog();
             }
         }
-
         private void btnRadnoMesto_Click(object sender, EventArgs e)
         {
             MessageBox.Show(DTOManager.radnoMestoZaposlenog(this.listaZaposlenih.ElementAt(this.lvListaZaposlenih.SelectedIndices[0]).MaticniBroj), "Radno mesto: ", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
-
     }
 }

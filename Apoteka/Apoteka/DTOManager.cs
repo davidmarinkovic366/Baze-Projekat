@@ -16,6 +16,7 @@ namespace Apoteka
 
         #region ProdajnaMesta
 
+
         public static List<ProdajnoMestoPregled> vratiSveProdavnice()
         {
             List<ProdajnoMestoPregled> prodajnaMesta = new List<ProdajnoMestoPregled>();
@@ -25,7 +26,6 @@ namespace Apoteka
 
                 IEnumerable<ProdajnoMesto> sveProdavnice = from o in s.Query<ProdajnoMesto>()
                                                                             select o;
-
                 foreach (ProdajnoMesto p in sveProdavnice)
                 {
                     prodajnaMesta.Add(new ProdajnoMestoPregled(p.Id, p.Naziv, p.Adresa, p.Mesto));
@@ -37,7 +37,6 @@ namespace Apoteka
             {
                 //handle exceptions
             }
-
             return prodajnaMesta;
         }
         public static void dodajProdajnoMesto(ProdajnoMestoBasic p)
@@ -46,15 +45,13 @@ namespace Apoteka
             {
                 ISession s = DataLayer.GetSession();
 
-               Apoteka.Entiteti.ProdajnoMesto o = new Apoteka.Entiteti.ProdajnoMesto();
+                Apoteka.Entiteti.ProdajnoMesto o = new Apoteka.Entiteti.ProdajnoMesto();
 
                 o.Naziv = p.Naziv;
                 o.Adresa = p.Adresa;
                 o.Mesto = p.Mesto;
-              
 
                 s.SaveOrUpdate(o);
-
                 s.Flush();
 
                 s.Close();
@@ -64,7 +61,6 @@ namespace Apoteka
                 //handle exceptions
             }
         }
-
         public static ProdajnoMestoBasic azurirajProdajnoMesto(ProdajnoMestoBasic p)
         {
             try
@@ -75,7 +71,6 @@ namespace Apoteka
                 o.Naziv = p.Naziv;
                 o.Adresa = p.Adresa;
                 o.Mesto = p.Mesto;
-
 
                 s.Update(o);
                 s.Flush();
@@ -89,7 +84,6 @@ namespace Apoteka
 
             return p;
         }
-
         public static ProdajnoMestoBasic vratiProdajnoMesto(int id)
         {
             ProdajnoMestoBasic pb = new ProdajnoMestoBasic();
@@ -109,7 +103,25 @@ namespace Apoteka
 
             return pb;
         }
+        public static ProdajnoMestoPregled vratiProdajnoMestoPregled(int id)
+        {
+            ProdajnoMestoPregled pm = new ProdajnoMestoPregled();
+            try
+            {
+                ISession s = DataLayer.GetSession();
 
+                Apoteka.Entiteti.ProdajnoMesto o = s.Load<Apoteka.Entiteti.ProdajnoMesto>(id);
+                pm = new ProdajnoMestoPregled(o.Id, o.Naziv, o.Adresa, o.Mesto);
+
+                s.Close();
+            }
+            catch (Exception ec)
+            {
+                //handle exceptions
+            }
+
+            return pm;
+        }
         public static void obrisiProdajnoMesto(int id)
         {
             try
@@ -130,10 +142,10 @@ namespace Apoteka
         }
 
 
-
         #endregion
 
         #region Zaposleni
+
 
         //Metoda za dodavanje radnika:
         public static void dodajZaposlenog(string mbr, string ime, string prezime, DateTime rodj, string adr, int tel, int farmaceut, DateTime dipl, DateTime obnovio, bool zaposli, int idMesta, DateTime radiOd)
@@ -142,16 +154,12 @@ namespace Apoteka
             {
                 ISession s = DataLayer.GetSession();
 
-                //Za podatke kao sto su DatumDiplomiranja i DatumObnoveLicence tek trebamo da dodamo klasu Farmaceut;
-
                 //Pravimo novog zaposlenog:
                 Zaposleni z = new Zaposleni();
                 Farmaceut f = new Farmaceut();
-
                 
                 if(farmaceut == 0)
                 {
-                    //z = new Zaposleni();
 
                     z.MaticniBroj = mbr;
                     z.Ime = ime;
@@ -160,12 +168,9 @@ namespace Apoteka
                     z.Adresa = adr;
                     z.BrojTelefona = tel;
                     z.Farmaceut = farmaceut;
-
-                    
-                }   //Inace trebamo da pravimo i farmaceuta:
+                }
                 else
                 {
-                    //f = new Farmaceut();
 
                     f.MaticniBroj = mbr;
                     f.Ime = ime;
@@ -229,8 +234,7 @@ namespace Apoteka
 
                 MessageBox.Show("Uspesno dodat novi radnik: " + poruka, "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-
-               s.Close();
+                s.Close();
                 return;
             }
 
@@ -245,7 +249,6 @@ namespace Apoteka
         {
             //Lista zaposlenih koju popunjavamo iz baze i vracamo nazad na formu 'Zaposleni'
             List<ZaposleniPregled> zaposleniLista = new List<ZaposleniPregled>();
-
             try
             {
                 ISession s = DataLayer.GetSession();
@@ -254,21 +257,17 @@ namespace Apoteka
 
                 foreach (Zaposleni z in sviZaposleni)
                 {
-                    //MessageBox.Show("Mbr: " + z.MaticniBroj + "\nFarmaceut: " + z.Farmaceut, "Proba", MessageBoxButtons.OK);
                     ZaposleniPregled novi;
                     if (z.Farmaceut == 1)
                     {
                         Farmaceut f = s.Load<Farmaceut>(z.MaticniBroj);
                         novi = new FarmaceutPregled(z.MaticniBroj, z.Ime, z.Prezime, z.Adresa, z.BrojTelefona, z.DatumRodjenja, z.Farmaceut, f.Diplomirao, f.ObnovioLicencu);
-                        //MessageBox.Show("FARMACEUT: " + novi.MaticniBroj + "\nIme: " + novi.Ime + "\nDiplomirao: " + f.Diplomirao.ToShortDateString(), "FARMACEUT!", MessageBoxButtons.OK);
                     }
                     else
                     {
                         novi = new ZaposleniPregled(z.MaticniBroj, z.Ime, z.Prezime, z.Adresa, z.BrojTelefona, z.DatumRodjenja, z.Farmaceut);
-                        //MessageBox.Show("Klasika, zaposleni: " + novi.MaticniBroj + "\nFarmaceut flag: " + novi.Farmaceut.ToString(), "zaposleni nista spec.", MessageBoxButtons.OK);
                     }
 
-                    //MessageBox.Show("Farmaceut iz baze: " + z.Farmaceut.ToString(), "Iz baze:", MessageBoxButtons.OK);
                     zaposleniLista.Add(novi);
                 }
 
@@ -282,7 +281,6 @@ namespace Apoteka
 
             return zaposleniLista;
         }
-
         public static List<ZaposleniBasic> vratiSveZaposleneBasic()
         {
             List<ZaposleniBasic> radnici = new List<ZaposleniBasic>();
@@ -308,12 +306,8 @@ namespace Apoteka
                 //handle exceptions
             }
 
-
-
             return radnici;
         }
-    
-        //Ok
         public static void promeniZaposlenog(string mbr, string ime, string prezime, DateTime rodj, string addr, string tel)
         {
             try
@@ -337,11 +331,8 @@ namespace Apoteka
 
             }
         }
-
-        //Ok
         public static void obrisiZaposlenog(string mbr)
         {
-
             try
             {
                 ISession s = DataLayer.GetSession();
@@ -368,8 +359,7 @@ namespace Apoteka
                 //handle exceptions
             }
         }
-
-        //Vrati naziv radnog mesta zaposlenog:  //Ok
+        //Vrati naziv radnog mesta zaposlenog:
         public static String radnoMestoZaposlenog(string mbr)
         {
             string p = null;
@@ -389,8 +379,6 @@ namespace Apoteka
             }
             return p;
         }
-
-        //Ok
         public static void obrisiZaposlenogIzProdavnice(string id)
         {
             try
@@ -410,6 +398,7 @@ namespace Apoteka
                 //handle exceptions
             }
         }
+
 
         #region Farmaceut
 
@@ -439,12 +428,12 @@ namespace Apoteka
 
         #region Recepti
 
+
         //Vrati sve recepte koji referenciraju ovog zaposlenog:
         public static List<ReceptPregled> vratiSveRecepte(String mbr)
         {
             //Lista recepta koju vracamo nazad:
             List<ReceptPregled> receptiLista = new List<ReceptPregled>();
-
             try
             {
                 ISession s = DataLayer.GetSession();
@@ -466,9 +455,11 @@ namespace Apoteka
             return receptiLista;
         }
 
+
         #endregion
 
         #region Lek
+
 
         public static List<LekPregled> vratiSveLekovePregled()
         {
@@ -496,7 +487,6 @@ namespace Apoteka
             return prodaja;
 
         }
-
         public static LekPregled vratiLek(int id)
         {
             LekPregled rb = new LekPregled();
@@ -516,7 +506,6 @@ namespace Apoteka
 
             return rb;
         }
-
         public static LekPregled vratiLek1(int id)
         {
             LekPregled rb = new LekPregled();
@@ -536,7 +525,6 @@ namespace Apoteka
 
             return rb;
         }
-
         //Vrati naziv tipa leka:
         public static String nazivTipaLeka(int id)
         {
@@ -559,7 +547,6 @@ namespace Apoteka
             return tip.Grupa;
 
         }
-
         //Metoda za dodavanje novog leka u bazu podataka:
         public static void dodajLek(LekPregled p)
         {
@@ -568,8 +555,6 @@ namespace Apoteka
                 ISession s = DataLayer.GetSession();
                 //Pravimo novi objekat tipa lek:
                 Apoteka.Entiteti.Lek o = new Apoteka.Entiteti.Lek();
-
-                //MessageBox.Show("Dobijeni index: " + p.tip, "Message", MessageBoxButtons.OK);
                 
                 //Trazimo objekat TipLeka po id-ju:
                 IEnumerable<TipLeka> tipLeka = from i in s.Query<TipLeka>() where i.IdTipa == p.tip select i;
@@ -578,7 +563,6 @@ namespace Apoteka
 
                 //Samo stampamo sta smo nasli:
                 TipLeka t = tipLeka.ElementAt(0);
-                //MessageBox.Show("Pronasli smo: " + t.Grupa , "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 //Uzimamo proizvodjaca:
                 Proizvodjac pro = pr.ElementAt(0);
 
@@ -594,9 +578,7 @@ namespace Apoteka
                 o.PripadaGrupi = t;
                 o.ProizvedenOd = pro;
 
-
                 s.SaveOrUpdate(o);
-
                 s.Flush();
 
                 s.Close();
@@ -606,7 +588,6 @@ namespace Apoteka
                 //handle exceptions
             }
         }
-
         //Metoda za brisanje leka iz baze podataka:
         public static void obrisiLekIzSistema(int id)
         {
@@ -614,14 +595,9 @@ namespace Apoteka
             {
                 ISession s = DataLayer.GetSession();
 
-
                 Apoteka.Entiteti.Lek p = s.Load<Apoteka.Entiteti.Lek>(id);
 
                 MessageBox.Show("Dobili smo id: " + id, "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                //Nije potrebno, radi i bez ovog:
-                //IEnumerable<Lek> lek = from p in s.Query<Lek>() where p.IdLeka == id select p;
-                //Lek l = lek.ElementAt(0);
 
                 MessageBox.Show("Pronasli smo: " + p.KomercijalniNaziv, "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -635,7 +611,6 @@ namespace Apoteka
                 //handle exceptions
             }
         }
-
         public static void izmeniLek(int sbr, string cena, string part, int recept)
         {
             try
@@ -657,16 +632,12 @@ namespace Apoteka
 
             }
         }
-
-
         public static List<ProdajnoMestoPregled> mestaProdajeLekova(int sbr)
         {
             List<ProdajnoMestoPregled> lista = new List<ProdajnoMestoPregled>();
             try
             {
                 ISession s = DataLayer.GetSession();
-
-                //MessageBox.Show(sbr.ToString(), "Message", MessageBoxButtons.OK);
 
                 IEnumerable<ProdajeSe> mesta = from i in s.Query<ProdajeSe>() where i.Id.LekProdajeSeU.IdLeka == sbr select i;
                 List < ProdajnoMesto > prodajnaMesta = new List<ProdajnoMesto>();
@@ -690,8 +661,6 @@ namespace Apoteka
             }
             return lista;
         }
-
-
         public static List<LekPregled> vratiLekoveZaProdajnoMesto(int id)
         {
             List<LekPregled> lekovi = new List<LekPregled>();
@@ -699,13 +668,9 @@ namespace Apoteka
             {
                 ISession s = DataLayer.GetSession();
 
-
-
                 IEnumerable<Apoteka.Entiteti.ProdajeSe> sviLekovi = from o in s.Query<Apoteka.Entiteti.ProdajeSe>()
                                                                     where o.Id.ProdajeSeUProdajnoMesto.Id == id
                                                                     select o;
-
-
 
                 foreach (Apoteka.Entiteti.ProdajeSe r in sviLekovi)
                 {
@@ -714,8 +679,6 @@ namespace Apoteka
                     r.Id.LekProdajeSeU.ProcenatParticipacije,
                     r.Id.LekProdajeSeU.Cena, r.Id.LekProdajeSeU.KomercijalniNaziv, r.Id.LekProdajeSeU.PripadaGrupi.IdTipa));
                 }
-
-
 
                 s.Close();
             }
@@ -728,7 +691,6 @@ namespace Apoteka
 
             return lekovi;
         }
-
         public static List<ZaposleniPregled> vratiZaposleneZaProdajnoMesto(int id)
         {
             List<ZaposleniPregled> zaposleni = new List<ZaposleniPregled>();
@@ -736,23 +698,17 @@ namespace Apoteka
             {
                 ISession s = DataLayer.GetSession();
 
-
-
                 IEnumerable<Apoteka.Entiteti.RadiU> sviZaposleni = from o in s.Query<Apoteka.Entiteti.RadiU>()
                                                                     where o.Id.RadiUProdajnoMesto.Id == id
                                                                     select o;
 
-
-
                 foreach (Apoteka.Entiteti.RadiU r in sviZaposleni)
                 {
-                    
                     if(r.Id.ZaposleniRadiU.Farmaceut == 0) 
                     { 
                         zaposleni.Add(new ZaposleniPregled(r.Id.ZaposleniRadiU.MaticniBroj, r.Id.ZaposleniRadiU.Ime, r.Id.ZaposleniRadiU.Prezime,
                         r.Id.ZaposleniRadiU.Adresa, r.Id.ZaposleniRadiU.BrojTelefona,
                         r.Id.ZaposleniRadiU.DatumRodjenja, r.Id.ZaposleniRadiU.Farmaceut
-                        //r.Id.ZaposleniRadiU.Diplomirao, r.Id.ZaposleniRadiU.ObnovioLicencu
                         ));            
                     }   //Inace je farmaceut?
                     else
@@ -778,9 +734,11 @@ namespace Apoteka
             return zaposleni;
         }
 
+
         #endregion
 
         #region Indikacije
+
 
         public static void dodajIndikaciju(int sbr, string tekst)
         {
@@ -807,7 +765,6 @@ namespace Apoteka
 
             }
         }
-
         public static void ukloniIndikaciju(int id)
         {
             try
@@ -830,23 +787,18 @@ namespace Apoteka
                 MessageBox.Show(ex.Message);
             }
         }
-
         public static List<IndikacijaPregled> vratiSveIndikacijeLeka(int sbr)
         {
             List<IndikacijaPregled> lista = new List<IndikacijaPregled>();
             try
             {
                 ISession s = DataLayer.GetSession();
-                //MessageBox.Show(sbr.ToString(), "Message", MessageBoxButtons.OK);
-
-                //Indikacija i = s.Get<Indikacija>(2);
-                //MessageBox.Show(i.IndikacijaOpis + " " + i.Id, "Message", MessageBoxButtons.OK);
-                //IEnumerable<Indikacija> indikacije = from o in s.Query<Indikacija>() where o.Lek.IdLeka == sbr select o;
                 IEnumerable<Apoteka.Entiteti.Indikacija> indikacije = from i in s.Query<Apoteka.Entiteti.Indikacija>() where i.Lek.IdLeka == sbr select i;
+
                 foreach (Indikacija d in indikacije)
                 {
                     lista.Add(new IndikacijaPregled(d.Id, d.IndikacijaOpis));
-                    MessageBox.Show(d.IndikacijaOpis, "Message", MessageBoxButtons.OK);
+                    //MessageBox.Show(d.IndikacijaOpis, "Message", MessageBoxButtons.OK);
                 }
 
                 s.Close();
@@ -857,12 +809,15 @@ namespace Apoteka
             {
                 MessageBox.Show(ex.Message);
             }
+
             return lista;
         }
+
 
         #endregion
 
         #region Kontraindikacije
+
 
         public static void dodajKontraindikaciju(int sbr, string tekst)
         {
@@ -886,7 +841,6 @@ namespace Apoteka
 
             }
         }
-
         public static void ukloniKontraindikaciju(int id)
         {
             try
@@ -906,20 +860,19 @@ namespace Apoteka
                 MessageBox.Show(ex.Message);
             }
         }
-
         public static List<KontraindikacijaPregled> vratiSveKontraindikacijeLeka(int sbr)
         {
             List<KontraindikacijaPregled> lista = new List<KontraindikacijaPregled>();
             try
             {
                 ISession s = DataLayer.GetSession();
-                MessageBox.Show(sbr.ToString(), "Message", MessageBoxButtons.OK);
+                //MessageBox.Show(sbr.ToString(), "Message", MessageBoxButtons.OK);
 
                 IEnumerable<Apoteka.Entiteti.Kontraindikacija> indikacije = from i in s.Query<Apoteka.Entiteti.Kontraindikacija>() where i.Lek.IdLeka == sbr select i;
                 foreach (Kontraindikacija d in indikacije)
                 {
                     lista.Add(new KontraindikacijaPregled(d.Id, d.KontraindikacijaOpis));
-                    MessageBox.Show(d.KontraindikacijaOpis, "Message", MessageBoxButtons.OK);
+                    //MessageBox.Show(d.KontraindikacijaOpis, "Message", MessageBoxButtons.OK);
                 }
 
                 s.Close();
@@ -930,16 +883,18 @@ namespace Apoteka
             {
 
             }
+
             return lista;
         }
+
 
         #endregion
 
         #region Pakovanje
 
+
         public static List<PakovanjePregled> vratiSvaPakovanja()
         {
-
             List<PakovanjePregled> lista = new List<PakovanjePregled>();
             try
             {
@@ -950,7 +905,7 @@ namespace Apoteka
                 foreach(Pakovanje p in pakovanja)
                 {
                     lista.Add(new PakovanjePregled(p.IdPakovanja, p.VrstaPakovanja));
-                    MessageBox.Show(p.VrstaPakovanja + " " + p.IdPakovanja, "Message", MessageBoxButtons.OK);
+                    //MessageBox.Show(p.VrstaPakovanja + " " + p.IdPakovanja, "Message", MessageBoxButtons.OK);
                 }
 
                 s.Close();
@@ -963,8 +918,6 @@ namespace Apoteka
 
             return lista;
         }
-
-        //FIXME:Proveri da li radi uopste?
         public static void upakujLek(int id, int idPak, int kol, string sastav)
         {
             try
@@ -998,7 +951,6 @@ namespace Apoteka
                 MessageBox.Show(ex.Message);
             }
         }
-
         //Vrati sve informacije vezane za pakovanje i dati lek:
         public static string vratiPakovanje(int idLeka)
         {
@@ -1030,9 +982,11 @@ namespace Apoteka
             return null;
         }
 
+
         #endregion
 
         #region RadiU
+
 
         public static void dodajRadniOdnos(RadiUBasic radi)
         {
@@ -1055,14 +1009,13 @@ namespace Apoteka
             {
                 //handle exceptions
             }
-
-
-
         }
+
 
         #endregion
 
         #region Proizvodjac
+
 
         public static string imeProizvodjaca(string komNaziv)
         {
@@ -1092,6 +1045,7 @@ namespace Apoteka
 
             return null;
         }
+
 
         #endregion
 

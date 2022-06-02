@@ -18,7 +18,6 @@ namespace Apoteka.Forme
             this.lek = l;
             InitializeComponent();
         }
-
         private void LekIzmeniForma_Load(object sender, EventArgs e)
         {
             this.tbxCena.Text = this.lek.Cena.ToString();
@@ -28,12 +27,10 @@ namespace Apoteka.Forme
             else
                 this.cbxRecept.Checked = false;
         }
-
         private void btnOdustani_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-
         private void btnPromeni_Click(object sender, EventArgs e)
         {
             DialogResult dlg = MessageBox.Show("Da li stvarno zelite da promenite lek?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);

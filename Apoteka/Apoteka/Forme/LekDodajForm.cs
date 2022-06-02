@@ -18,7 +18,6 @@ namespace Apoteka.Forme
             InitializeComponent();
             lek = new LekPregled();
         }
-
         private void btnDodajLek_Click(object sender, EventArgs e)
         {
             string poruka = "Da li zelite da dodate novi lek?";

@@ -13,23 +13,20 @@ namespace Apoteka.Forme
     public partial class LekoviForm : Form
     {
         public List<LekPregled> lekoviLista = null;
+        public int brojLeka = 0;
         public LekoviForm()
         {
             InitializeComponent();
         }
-        public int brojLeka = 0;
         private void LekoviForm_Load(object sender, EventArgs e)
         {
             popuniPodacima();
-
         }
-
         public void popuniPodacima()
         {
             this.brojLeka = 0;
             this.lekovi.Items.Clear();
             List<LekPregled> listaLeka = DTOManager.vratiSveLekovePregled();
-
 
             foreach (LekPregled p in listaLeka)
             {
@@ -43,7 +40,6 @@ namespace Apoteka.Forme
             tbxBrojLekova.Text = this.brojLeka.ToString();
             this.lekovi.Refresh();
         }
-
         private void btnPrikaziInfOLeku_Click(object sender, EventArgs e)
         {
             if (lekovi.SelectedItems.Count == 0)
@@ -72,14 +68,12 @@ namespace Apoteka.Forme
             MessageBox.Show(novi, "Message", MessageBoxButtons.OK);
 
         }
-
         private void btnDodajLek_Click(object sender, EventArgs e)
         {
             LekDodajForm form = new LekDodajForm();
             form.ShowDialog();
             popuniPodacima();
         }
-
         private void btnIzbrisi_Click(object sender, EventArgs e)
         {
             if (lekovi.SelectedItems.Count == 0)
@@ -105,7 +99,6 @@ namespace Apoteka.Forme
 
             }
         }
-
         private void btnIzmeni_Click(object sender, EventArgs e)
         {
             //Dodaj proveru da li je izabran neki lek:
@@ -122,25 +115,21 @@ namespace Apoteka.Forme
                 this.popuniPodacima();
             }
         }
-
         private void btnPrikaziProdajnaMesta_Click(object sender, EventArgs e)
         {
             LekoviPrikaziProdajnaMesta frm = new LekoviPrikaziProdajnaMesta(DTOManager.mestaProdajeLekova(this.lekoviLista.ElementAt(this.lekovi.SelectedIndices[0]).IdLeka));
             frm.ShowDialog();
         }
-
         private void btnIndikacije_Click(object sender, EventArgs e)
         {
             LekPrikaziIndikacije frm = new LekPrikaziIndikacije(DTOManager.vratiSveIndikacijeLeka(this.lekoviLista.ElementAt(this.lekovi.SelectedIndices[0]).IdLeka), this.lekoviLista);
             frm.ShowDialog();
         }
-
         private void btnKontraindikacije_Click(object sender, EventArgs e)
         {
             LekPrikaziKontraindikacije frm = new LekPrikaziKontraindikacije(DTOManager.vratiSveKontraindikacijeLeka(this.lekoviLista.ElementAt(this.lekovi.SelectedIndices[0]).IdLeka), this.lekoviLista);
             frm.ShowDialog();
         }
-
         private void btnUpakuj_Click(object sender, EventArgs e)
         {
             if(this.lekovi.SelectedItems.Count == 1)

@@ -19,19 +19,16 @@ namespace Apoteka.Forme
         {
             InitializeComponent();
         }
-
         public ZaposleniDodajForm(ProdajnoMestoBasic p, List<ProdajnoMestoPregled> mesta)
         {
             prodajnoMesto = p;
             this.prodajnaMesta = mesta;
             InitializeComponent();
         }
-
         private void cbxFarmaceut_CheckedChanged(object sender, EventArgs e)
         {
             gboxFarmaceut.Enabled = !gboxFarmaceut.Enabled;
         }
-
         private void ZaposleniDodajForm_Load(object sender, EventArgs e)
         {
             gboxFarmaceut.Enabled = false;
@@ -42,12 +39,10 @@ namespace Apoteka.Forme
                 this.cboxProdajnoMesto.Items.Add(p.Naziv);
             }
         }
-
         private void btnOtkazi_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-
         private void btnDodaj_Click(object sender, EventArgs e)
         {
             DialogResult res = MessageBox.Show("Da li ste sigurni da zelite da dodate korisnika?",
@@ -67,7 +62,6 @@ namespace Apoteka.Forme
                     obn = this.dtimeObnovio.Value;
                 }
                 
-
                 //Posto moramo da posaljemo argumente, cak i ako ih ne koristimo, moramo da proverimo prvo da li trebamo
                 //da ih procitamo ili mozemo da ostavimo neke bezveze vrednosti:
                 if (this.cbxZaposli.Checked)
@@ -85,7 +79,6 @@ namespace Apoteka.Forme
                 this.Close();
             }
         }
-
         private void cbxZaposli_CheckedChanged(object sender, EventArgs e)
         {
             this.gbxDodajRadnoMesto.Enabled = !this.gbxDodajRadnoMesto.Enabled;

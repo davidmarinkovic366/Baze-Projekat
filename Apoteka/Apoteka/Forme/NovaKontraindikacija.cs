@@ -18,7 +18,6 @@ namespace Apoteka.Forme
             this.lekovi = list;
             InitializeComponent();
         }
-
         private void NovaKontraindikacija_Load(object sender, EventArgs e)
         {
             foreach(LekPregled l in this.lekovi)
@@ -26,12 +25,10 @@ namespace Apoteka.Forme
                 this.cbxLekovi.Items.Add(l.KomercijalniNaziv);
             }
         }
-
         private void btnOdustani_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-
         private void btnPotvrdi_Click(object sender, EventArgs e)
         {
             DialogResult dlg = MessageBox.Show("Da li ste sigurni da zelite da dodate kontraindikaciju za lek?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);

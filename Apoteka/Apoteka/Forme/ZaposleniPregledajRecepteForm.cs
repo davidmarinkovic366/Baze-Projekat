@@ -19,12 +19,10 @@ namespace Apoteka.Forme
             InitializeComponent();
             this.zaposleni = z;
         }
-
         private void ZaposleniPregledajRecepteForm_Load(object sender, EventArgs e)
         {
             this.ucitajPodatke();
         }
-
         public void ucitajPodatke()
         {
             //Cistimo listu:

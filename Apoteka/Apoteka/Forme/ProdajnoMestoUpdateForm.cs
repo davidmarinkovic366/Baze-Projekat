@@ -22,18 +22,13 @@ namespace Apoteka.Forme
         {
             popuniPodacima();
             this.Text = $"AZURIRANJE PRODAJNOG MESTA {prodajnomesto.Naziv.ToUpper()}";
-
         }
-
         public void popuniPodacima()
         {
             tbxNaziv.Text = this.prodajnomesto.Naziv;
             tbxAdresa.Text = this.prodajnomesto.Adresa;
             tbxMesto.Text = this.prodajnomesto.Mesto;
-          
         }
-
-
         //Azuriraj postojece prodajno mesto
         private void btnAzuriraj_Click(object sender, EventArgs e)
         {
@@ -47,7 +42,6 @@ namespace Apoteka.Forme
                 this.prodajnomesto.Adresa = tbxAdresa.Text;
                 this.prodajnomesto.Mesto = tbxMesto.Text;
 
-
                 DTOManager.azurirajProdajnoMesto(this.prodajnomesto);
                 MessageBox.Show("Azuriranje prodajnog mesta je uspesno izvrseno!");
                 this.Close();
@@ -57,7 +51,5 @@ namespace Apoteka.Forme
                 return;
             }
         }
-
-       
     }
 }

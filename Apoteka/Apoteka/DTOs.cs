@@ -8,7 +8,6 @@ using Apoteka.Entiteti;
 namespace Apoteka
 {
 
-
     #region ProdajnaMesta
 
     public class ProdajnoMestoPregled
@@ -72,9 +71,6 @@ namespace Apoteka
         public int BrojTelefona;
         public DateTime DatumRodjenja;
         public int Farmaceut;
-        //public DateTime Diplomirao;
-        //public DateTime ObnovioLicencu;
-
         public ZaposleniPregled()
         {
 
@@ -88,8 +84,6 @@ namespace Apoteka
             this.BrojTelefona = brTelefona;
             this.DatumRodjenja = datumRodjenja;
             this.Farmaceut = farmaceut;
-            //this.Diplomirao = diplomirao;
-            //this.ObnovioLicencu = obnovioLicencu;
         }
     }
 

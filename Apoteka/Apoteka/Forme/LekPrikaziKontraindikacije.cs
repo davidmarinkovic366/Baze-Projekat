@@ -20,12 +20,10 @@ namespace Apoteka.Forme
             this.lekovi = lek;
             InitializeComponent();
         }
-
         private void LekPrikaziKontraindikacije_Load(object sender, EventArgs e)
         {
             ucitajPrikaz();
         }
-
         public void ucitajPrikaz()
         {
             this.lvKontraindikacije.Items.Clear();
@@ -36,13 +34,11 @@ namespace Apoteka.Forme
             }
             this.lvKontraindikacije.Refresh();
         }
-
         private void btnDodajKontraindikaciju_Click(object sender, EventArgs e)
         {
             NovaKontraindikacija frm = new NovaKontraindikacija(this.lekovi);
             frm.ShowDialog();
         }
-
         private void btnUkloniIndikaciju_Click(object sender, EventArgs e)
         {
             DTOManager.ukloniKontraindikaciju(this.kontraindikacije.ElementAt(this.lvKontraindikacije.SelectedIndices[0]).Id);

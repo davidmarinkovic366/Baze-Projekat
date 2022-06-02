@@ -19,7 +19,6 @@ namespace Apoteka.Forme
             InitializeComponent();
             this.zaposleni = z;
         }
-
         private void ZaposleniUpdateForm_Load(object sender, EventArgs e)
         {
             this.tbxIme.Text = this.zaposleni.Ime;
@@ -39,12 +38,10 @@ namespace Apoteka.Forme
                 //this.dtimeObnovio.Value = this.zaposleni.ObnovioLicencu;
             }
         }
-
         private void btnOtkazi_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-
         private void btnPotvrdi_Click(object sender, EventArgs e)
         {
             //Prvo pitamo da li stvarno zelimo da promenimo korisnika?

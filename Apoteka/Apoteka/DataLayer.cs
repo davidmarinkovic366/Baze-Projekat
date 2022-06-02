@@ -14,7 +14,6 @@ namespace Apoteka
         private static ISessionFactory _factory = null;
         private static object objLock = new object();
 
-
         //funkcija na zahtev otvara sesiju
         public static ISession GetSession()
         {
@@ -30,7 +29,6 @@ namespace Apoteka
 
             return _factory.OpenSession();
         }
-
         //konfiguracija i kreiranje session factory
         private static ISessionFactory CreateSessionFactory()
         {
@@ -39,7 +37,6 @@ namespace Apoteka
                 var cfg = OracleManagedDataClientConfiguration.Oracle10
                 .ConnectionString(c =>
                     c.Is("DATA SOURCE=gislab-oracle.elfak.ni.ac.rs:1521/SBP_PDB;PERSIST SECURITY INFO=True;USER ID=S17738;Password=p3192www"));
-
 
                 return Fluently.Configure()
                     .Database(cfg)
