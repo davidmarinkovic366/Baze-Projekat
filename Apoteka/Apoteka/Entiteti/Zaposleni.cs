@@ -18,26 +18,12 @@ namespace Apoteka.Entiteti
         public virtual IList<Recept> Recepti { get; set; }
         public virtual IList<ProdajnoMesto> ProdajnaMesta { get; set; }
         public virtual IList<RadiU> RadiUProdajnaMesta { get; set; }
-        public virtual DateTime Diplomirao { get; set; }
-        public virtual DateTime ObnovioLicencu { get; set; }
 
         public Zaposleni()
         {
             Recepti = new List<Recept>();
             ProdajnaMesta = new List<ProdajnoMesto>();
             RadiUProdajnaMesta = new List<RadiU>();
-        }
-
-
-    }
-
-    public class Farmaceut : Zaposleni
-    {
-        public virtual DateTime Diplomirao { get; set; }
-        public virtual DateTime ObnovioLicencu { get; set; }
-        
-        public Farmaceut()
-        {
         }
 
     }

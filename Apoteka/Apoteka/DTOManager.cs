@@ -146,17 +146,51 @@ namespace Apoteka
 
                 //Pravimo novog zaposlenog:
                 Zaposleni z = new Zaposleni();
-                z.MaticniBroj = mbr;
-                z.Ime = ime;
-                z.Prezime = prezime;
-                z.DatumRodjenja = rodj;
-                z.Adresa = adr;
-                z.BrojTelefona = tel;
-                z.Farmaceut = farmaceut;
+                Farmaceut f = new Farmaceut();
+
+                
+                if(farmaceut == 0)
+                {
+                    //z = new Zaposleni();
+
+                    z.MaticniBroj = mbr;
+                    z.Ime = ime;
+                    z.Prezime = prezime;
+                    z.DatumRodjenja = rodj;
+                    z.Adresa = adr;
+                    z.BrojTelefona = tel;
+                    z.Farmaceut = farmaceut;
+
+                    
+                }   //Inace trebamo da pravimo i farmaceuta:
+                else
+                {
+                    //f = new Farmaceut();
+
+                    f.MaticniBroj = mbr;
+                    f.Ime = ime;
+                    f.Prezime = prezime;
+                    f.DatumRodjenja = rodj;
+                    f.Adresa = adr;
+                    f.BrojTelefona = tel;
+                    f.Farmaceut = farmaceut;
+
+                    f.Diplomirao = dipl;
+                    f.ObnovioLicencu = obnovio;
+                }
 
                 string poruka = "Mbr: " + mbr + "\nIme: " + ime + "\nPrezime: " + prezime + "\nRodjen: " + rodj.ToShortDateString() + "\nAdresa: " + adr + "\nBroj telefona: " + tel + "\nFarmaceut: " + farmaceut;
-
-                s.SaveOrUpdate(z);
+                
+                if(farmaceut == 0)
+                {
+                    s.SaveOrUpdate(z);
+                }
+                else
+                {
+                    s.SaveOrUpdate(f);
+                    string dodatak = "\nDiplomirao: " + dipl.ToShortDateString() + "\nObnovio licencu: " + obnovio.ToShortDateString();
+                    poruka += dodatak;
+                }
                 s.Flush();
 
                 //Ako je cekiran CheckBox "Zaposli", trebamo da dodamo i radni odnos za radnika:
@@ -172,7 +206,14 @@ namespace Apoteka
                     //Spajamo radnika i radno mesto:
                     radiU.Id = new RadiUId();
                     radiU.Id.RadiUProdajnoMesto = p;
-                    radiU.Id.ZaposleniRadiU = z;
+                    if(farmaceut == 0)
+                    {
+                        radiU.Id.ZaposleniRadiU = z;
+                    }
+                    else
+                    {   //Mora parse, zato sto cuvamo referencu na drugi objekat: 
+                        radiU.Id.ZaposleniRadiU = (Zaposleni)f;
+                    }
 
                     //z.RadiUProdajnaMesta.Add(radiU);
                     s.SaveOrUpdate(radiU);
@@ -208,16 +249,31 @@ namespace Apoteka
             try
             {
                 ISession s = DataLayer.GetSession();
-                
+
                 IEnumerable<Zaposleni> sviZaposleni = from o in s.Query<Zaposleni>() select o;
 
                 foreach (Zaposleni z in sviZaposleni)
                 {
-                    zaposleniLista.Add(new ZaposleniPregled(z.MaticniBroj, z.Ime, z.Prezime, z.Adresa, z.BrojTelefona, z.DatumRodjenja, z.Farmaceut, z.Diplomirao, z.ObnovioLicencu));
-                    MessageBox.Show("Zaposleni: " + z.MaticniBroj + " Farmaceut: " + z.Farmaceut.ToString(), "Message", MessageBoxButtons.OK);
+                    //MessageBox.Show("Mbr: " + z.MaticniBroj + "\nFarmaceut: " + z.Farmaceut, "Proba", MessageBoxButtons.OK);
+                    ZaposleniPregled novi;
+                    if (z.Farmaceut == 1)
+                    {
+                        Farmaceut f = s.Load<Farmaceut>(z.MaticniBroj);
+                        novi = new FarmaceutPregled(z.MaticniBroj, z.Ime, z.Prezime, z.Adresa, z.BrojTelefona, z.DatumRodjenja, z.Farmaceut, f.Diplomirao, f.ObnovioLicencu);
+                        //MessageBox.Show("FARMACEUT: " + novi.MaticniBroj + "\nIme: " + novi.Ime + "\nDiplomirao: " + f.Diplomirao.ToShortDateString(), "FARMACEUT!", MessageBoxButtons.OK);
+                    }
+                    else
+                    {
+                        novi = new ZaposleniPregled(z.MaticniBroj, z.Ime, z.Prezime, z.Adresa, z.BrojTelefona, z.DatumRodjenja, z.Farmaceut);
+                        //MessageBox.Show("Klasika, zaposleni: " + novi.MaticniBroj + "\nFarmaceut flag: " + novi.Farmaceut.ToString(), "zaposleni nista spec.", MessageBoxButtons.OK);
+                    }
+
+                    //MessageBox.Show("Farmaceut iz baze: " + z.Farmaceut.ToString(), "Iz baze:", MessageBoxButtons.OK);
+                    zaposleniLista.Add(novi);
                 }
 
                 s.Close();
+                return zaposleniLista;
             }
             catch (Exception ex)
             {
@@ -230,6 +286,7 @@ namespace Apoteka
         public static List<ZaposleniBasic> vratiSveZaposleneBasic()
         {
             List<ZaposleniBasic> radnici = new List<ZaposleniBasic>();
+            List<FarmaceutBasic> farmaceuti = new List<FarmaceutBasic>();
             try
             {
                 ISession s = DataLayer.GetSession();
@@ -244,8 +301,6 @@ namespace Apoteka
                     r.Farmaceut));
                 }
 
-
-
                 s.Close();
             }
             catch (Exception ec)
@@ -258,7 +313,7 @@ namespace Apoteka
             return radnici;
         }
     
-
+        //Ok
         public static void promeniZaposlenog(string mbr, string ime, string prezime, DateTime rodj, string addr, string tel)
         {
             try
@@ -283,36 +338,38 @@ namespace Apoteka
             }
         }
 
+        //Ok
         public static void obrisiZaposlenog(string mbr)
         {
-           
-                try
+
+            try
+            {
+                ISession s = DataLayer.GetSession();
+
+                Apoteka.Entiteti.Zaposleni r = s.Load<Apoteka.Entiteti.Zaposleni>(mbr);
+                if (r.Farmaceut == 1)
                 {
-                    ISession s = DataLayer.GetSession();
-
-
-
-                    Apoteka.Entiteti.Zaposleni r = s.Load<Apoteka.Entiteti.Zaposleni>(mbr);
-                    r.ProdajnaMesta.Clear();
-                    r.RadiUProdajnaMesta.Clear(); //jedan radnik moze da radi i u vise prodavnica
-                    s.Delete(r);
-                    s.Flush();
-
-
-
-                    s.Close();
-                }
-                catch (Exception ec)
-                {
-                    //handle exceptions
+                    //Isti mbr se koristi za obe tabele:
+                    Apoteka.Entiteti.Farmaceut f = s.Load<Apoteka.Entiteti.Farmaceut>(mbr);
+                    //Ne mozemo prvo da obrisemo zaposlenog zato sto farmaceut ima ref. na istog,
+                    //pa mora ovim redosledom:
+                    s.Delete(f);
                 }
 
+                r.ProdajnaMesta.Clear();
+                r.RadiUProdajnaMesta.Clear(); //jedan radnik moze da radi i u vise prodavnica
+                s.Delete(r);
+                s.Flush();
 
-
-            
+                s.Close();
+            }
+            catch (Exception ec)
+            {
+                //handle exceptions
+            }
         }
 
-        //Vrati naziv radnog mesta zaposlenog:
+        //Vrati naziv radnog mesta zaposlenog:  //Ok
         public static String radnoMestoZaposlenog(string mbr)
         {
             string p = null;
@@ -333,13 +390,12 @@ namespace Apoteka
             return p;
         }
 
+        //Ok
         public static void obrisiZaposlenogIzProdavnice(string id)
         {
             try
             {
                 ISession s = DataLayer.GetSession();
-
-
 
                 Apoteka.Entiteti.Zaposleni r = s.Load<Apoteka.Entiteti.Zaposleni>(id);
                 r.ProdajnaMesta.Clear();
@@ -357,13 +413,14 @@ namespace Apoteka
 
         #region Farmaceut
 
-        public static Farmaceut vratiFarmaceuta(int id)
+        //Ok
+        public static Farmaceut vratiFarmaceuta(string mbr)
         {
             try
             {
                 ISession s = DataLayer.GetSession();
 
-                Farmaceut f = s.Load<Farmaceut>(id);
+                Farmaceut f = s.Load<Farmaceut>(mbr);
 
                 MessageBox.Show("Diplomirao: " + f.Diplomirao + " Obnovio:" + f.ObnovioLicencu, "Message", MessageBoxButtons.OK);
 
@@ -689,14 +746,25 @@ namespace Apoteka
 
                 foreach (Apoteka.Entiteti.RadiU r in sviZaposleni)
                 {
-                    zaposleni.Add(new ZaposleniPregled(r.Id.ZaposleniRadiU.MaticniBroj, r.Id.ZaposleniRadiU.Ime, r.Id.ZaposleniRadiU.Prezime,
-                    r.Id.ZaposleniRadiU.Adresa, r.Id.ZaposleniRadiU.BrojTelefona, 
-                    r.Id.ZaposleniRadiU.DatumRodjenja, r.Id.ZaposleniRadiU.Farmaceut,
-                    r.Id.ZaposleniRadiU.Diplomirao, r.Id.ZaposleniRadiU.ObnovioLicencu
-                    ));
+                    
+                    if(r.Id.ZaposleniRadiU.Farmaceut == 0) 
+                    { 
+                        zaposleni.Add(new ZaposleniPregled(r.Id.ZaposleniRadiU.MaticniBroj, r.Id.ZaposleniRadiU.Ime, r.Id.ZaposleniRadiU.Prezime,
+                        r.Id.ZaposleniRadiU.Adresa, r.Id.ZaposleniRadiU.BrojTelefona,
+                        r.Id.ZaposleniRadiU.DatumRodjenja, r.Id.ZaposleniRadiU.Farmaceut
+                        //r.Id.ZaposleniRadiU.Diplomirao, r.Id.ZaposleniRadiU.ObnovioLicencu
+                        ));            
+                    }   //Inace je farmaceut?
+                    else
+                    {
+                        Farmaceut f = s.Load<Farmaceut>(r.Id.ZaposleniRadiU.MaticniBroj);
+
+                        zaposleni.Add(new FarmaceutPregled(r.Id.ZaposleniRadiU.MaticniBroj, r.Id.ZaposleniRadiU.Ime, r.Id.ZaposleniRadiU.Prezime,
+                        r.Id.ZaposleniRadiU.Adresa, r.Id.ZaposleniRadiU.BrojTelefona,
+                        r.Id.ZaposleniRadiU.DatumRodjenja, r.Id.ZaposleniRadiU.Farmaceut,
+                        f.Diplomirao, f.ObnovioLicencu));
+                    }
                 }
-
-
 
                 s.Close();
             }

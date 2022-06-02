@@ -19,7 +19,7 @@ namespace Apoteka.Mapiranja
             Id(x => x.MaticniBroj, "MATICNI_BROJ").GeneratedBy.Assigned();
 
             //FIXME: Problem:
-            DiscriminateSubClassesOnColumn("FARMACEUT_FLAG", 0);
+            //DiscriminateSubClassesOnColumn("FARMACEUT_FLAG", 0);
 
             //mapiranje svojstava
             Map(x => x.Ime, "IME");
@@ -27,9 +27,9 @@ namespace Apoteka.Mapiranja
             Map(x => x.Adresa, "ADRESA");
             Map(x => x.BrojTelefona, "BROJ_TELEFONA");
             Map(x => x.DatumRodjenja, "DATUM_RODJENJA");
-            Map(x => x.Diplomirao, "DIPLOMIRAO");
-            Map(x => x.ObnovioLicencu, "OBNOVIO_LICENCU");
-            //Map(x => x.Farmaceut, "FARMACEUT_FLAG");
+            //Map(x => x.Diplomirao, "DIPLOMIRAO");
+            //Map(x => x.ObnovioLicencu, "OBNOVIO_LICENCU");
+            Map(x => x.Farmaceut, "FARMACEUT_FLAG");
 
 
 
@@ -46,12 +46,12 @@ namespace Apoteka.Mapiranja
         }
     }
 
-    public class FarmaceutMapiranja : SubclassMap<Farmaceut>
-    {
-        public FarmaceutMapiranja()
-        {
-            DiscriminatorValue(1);
-        }
+    //public class FarmaceutMapiranja : SubclassMap<Farmaceut>
+    //{
+    //    public FarmaceutMapiranja()
+    //    {
+    //        DiscriminatorValue(1);
+    //    }
 
-    }
+    //}
 }

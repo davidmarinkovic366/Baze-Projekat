@@ -34,7 +34,16 @@ namespace Apoteka.Forme
             List<ZaposleniPregled> zaposleni = DTOManager.vratiSveZaposlene();
             foreach (ZaposleniPregled z in zaposleni)
             {
-                ListViewItem item = new ListViewItem(new string[] {  z.MaticniBroj, z.Ime, z.Prezime, z.Adresa, z.BrojTelefona.ToString(), z.DatumRodjenja.ToShortDateString(), z.Farmaceut.ToString(), z.Diplomirao.ToShortDateString(), z.ObnovioLicencu.ToShortDateString() });
+                ListViewItem item;
+                if (z.Farmaceut == 1)
+                {
+                    FarmaceutPregled f = (FarmaceutPregled)z;
+                    item = new ListViewItem(new string[] { f.MaticniBroj, f.Ime, f.Prezime, f.Adresa, f.BrojTelefona.ToString(), f.DatumRodjenja.ToShortDateString(), f.Farmaceut.ToString(), f.Diplomirao.ToShortDateString(), f.ObnovioLicencu.ToShortDateString() });
+                }
+                else
+                {
+                    item = new ListViewItem(new string[] {  z.MaticniBroj, z.Ime, z.Prezime, z.Adresa, z.BrojTelefona.ToString(), z.DatumRodjenja.ToShortDateString(), z.Farmaceut.ToString()});
+                }
                 this.lvListaZaposlenih.Items.Add(item);
                 this.brojZaposlenih++;
             }

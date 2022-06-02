@@ -118,6 +118,7 @@
     <Compile Include="DataLayer.cs" />
     <Compile Include="DTOManager.cs" />
     <Compile Include="DTOs.cs" />
+    <Compile Include="Entiteti\Farmaceut.cs" />
     <Compile Include="Entiteti\Indikacija.cs" />
     <Compile Include="Entiteti\Kontraindikacija.cs" />
     <Compile Include="Entiteti\Lek.cs" />
@@ -253,6 +254,7 @@
     <Compile Include="Forme\ZaposleniUpdateForm.Designer.cs">
       <DependentUpon>ZaposleniUpdateForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Mapiranja\FarmaceutMapiranja.cs" />
     <Compile Include="Mapiranja\IndikacijaMapiranja.cs" />
     <Compile Include="Mapiranja\KontraindikacijaMapiranja.cs" />
     <Compile Include="Mapiranja\LekMapiranja.cs" />

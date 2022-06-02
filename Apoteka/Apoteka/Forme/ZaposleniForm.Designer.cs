@@ -45,9 +45,9 @@ namespace Apoteka.Forme
             this.Adresa = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Telefon = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Rodjen = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.gboxListaZaposlenih = new System.Windows.Forms.GroupBox();
             this.Diplomirao = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Obnovio = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.gboxListaZaposlenih = new System.Windows.Forms.GroupBox();
             this.gbxKontrolaZaposleni.SuspendLayout();
             this.gboxListaZaposlenih.SuspendLayout();
             this.SuspendLayout();
@@ -62,7 +62,7 @@ namespace Apoteka.Forme
             this.gbxKontrolaZaposleni.Controls.Add(this.btnObrisiZaposlenog);
             this.gbxKontrolaZaposleni.Controls.Add(this.btnIzmeniZaposlenog);
             this.gbxKontrolaZaposleni.Controls.Add(this.btnDodajZaposlenog);
-            this.gbxKontrolaZaposleni.Location = new System.Drawing.Point(843, 11);
+            this.gbxKontrolaZaposleni.Location = new System.Drawing.Point(865, 12);
             this.gbxKontrolaZaposleni.Name = "gbxKontrolaZaposleni";
             this.gbxKontrolaZaposleni.Size = new System.Drawing.Size(232, 294);
             this.gbxKontrolaZaposleni.TabIndex = 1;
@@ -167,11 +167,10 @@ namespace Apoteka.Forme
             this.lvListaZaposlenih.HideSelection = false;
             this.lvListaZaposlenih.Location = new System.Drawing.Point(3, 12);
             this.lvListaZaposlenih.Name = "lvListaZaposlenih";
-            this.lvListaZaposlenih.Size = new System.Drawing.Size(816, 275);
+            this.lvListaZaposlenih.Size = new System.Drawing.Size(838, 275);
             this.lvListaZaposlenih.TabIndex = 0;
             this.lvListaZaposlenih.UseCompatibleStateImageBehavior = false;
             this.lvListaZaposlenih.View = System.Windows.Forms.View.Details;
-            //this.lvListaZaposlenih.SelectedIndexChanged += new System.EventHandler(this.lvListaZaposlenih_SelectedIndexChanged);
             // 
             // Maticni
             // 
@@ -193,36 +192,38 @@ namespace Apoteka.Forme
             this.Rodjen.Text = "Rodjen";
             this.Rodjen.Width = 91;
             // 
+            // Diplomirao
+            // 
+            this.Diplomirao.Text = "Diplomirao";
+            this.Diplomirao.Width = 78;
+            // 
+            // Obnovio
+            // 
+            this.Obnovio.Text = "Obnovio";
+            this.Obnovio.Width = 85;
+            // 
             // gboxListaZaposlenih
             // 
             this.gboxListaZaposlenih.Controls.Add(this.lvListaZaposlenih);
             this.gboxListaZaposlenih.Location = new System.Drawing.Point(12, 12);
             this.gboxListaZaposlenih.Name = "gboxListaZaposlenih";
-            this.gboxListaZaposlenih.Size = new System.Drawing.Size(825, 293);
+            this.gboxListaZaposlenih.Size = new System.Drawing.Size(847, 293);
             this.gboxListaZaposlenih.TabIndex = 2;
             this.gboxListaZaposlenih.TabStop = false;
             this.gboxListaZaposlenih.Text = "Informacije o zaposlenima";
-            // 
-            // Diplomirao
-            // 
-            this.Diplomirao.Text = "Diplomirao";
-            this.Diplomirao.Width = 71;
-            // 
-            // Obnovio
-            // 
-            this.Obnovio.Text = "Obnovio";
-            this.Obnovio.Width = 68;
             // 
             // ZaposleniForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.ClientSize = new System.Drawing.Size(1087, 319);
+            this.ClientSize = new System.Drawing.Size(1109, 319);
             this.Controls.Add(this.gboxListaZaposlenih);
             this.Controls.Add(this.gbxKontrolaZaposleni);
             this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(1125, 358);
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(1125, 358);
             this.Name = "ZaposleniForm";
             this.Text = "ZaposleniForm";
             this.Load += new System.EventHandler(this.ZaposleniForm_Load);

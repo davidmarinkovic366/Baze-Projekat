@@ -54,11 +54,19 @@ namespace Apoteka.Forme
                                                 "Potvrda", MessageBoxButtons.YesNo);
             if (res == DialogResult.Yes)
             {
-                int far = 0;
-                if (this.cbxFarmaceut.Checked)
-                    far = 1;
+                DateTime dipl = new DateTime();
+                DateTime obn = new DateTime();
                 int idMesta = 0;
                 DateTime radiOd = new DateTime(2022, 1, 1);
+
+                int far = 0;
+                if (this.cbxFarmaceut.Checked)
+                {
+                    far = 1;
+                    dipl = this.dtimeDiplomirao.Value;
+                    obn = this.dtimeObnovio.Value;
+                }
+                
 
                 //Posto moramo da posaljemo argumente, cak i ako ih ne koristimo, moramo da proverimo prvo da li trebamo
                 //da ih procitamo ili mozemo da ostavimo neke bezveze vrednosti:
@@ -69,7 +77,7 @@ namespace Apoteka.Forme
                 }
 
                 //Na osnovu flegova koje saljemo sama odlucuje da li dodaje novog zaposlenog u prodajno mesto i koje ili ne:
-                DTOManager.dodajZaposlenog(this.tbxMbr.Text, this.tbxIme.Text, this.tbxPrezime.Text, this.dtimeRodjendan.Value, this.tbxAdresa.Text, Int32.Parse(this.tbxTelefon.Text), far, new DateTime(2022, 1, 1), new DateTime(2022, 1, 1), this.cbxZaposli.Checked, idMesta, radiOd);
+                DTOManager.dodajZaposlenog(this.tbxMbr.Text, this.tbxIme.Text, this.tbxPrezime.Text, this.dtimeRodjendan.Value, this.tbxAdresa.Text, Int32.Parse(this.tbxTelefon.Text), far, dipl, obn, this.cbxZaposli.Checked, idMesta, radiOd);
 
             }
             else
